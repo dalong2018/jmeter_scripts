@@ -1,0 +1,53 @@
+1.monkey命令格式
+adb shell monkey -p [] --ignore-crashes --ignore-timeouts --throttle 400 -v -s 3500 100000 > D:\monkey_log.txt
+
+2.-s 用于指定伪随机生成器seed值，如果seed相同，则两次monkey测试所产生的时间序列也相同
+adb shell monkey -p [] -s 101 100 提前指定
+
+3 -v 指定反馈信息级别
+-v -v -v 最高的日志级别
+
+4 --throttle<毫秒>
+用于指定用户操作间的时延  
+
+--randomize-throttle
+在时间之间插入随机延迟，随机延迟范围为0到throttle设置的时间
+
+
+5 --pkg-whitelist-file  白名单 后面接txt文件
+1》将设置的白名单的包名写到一个txt文件里面。路径和文档名字都是英文
+2>把文件拉倒安卓机中去，放在data/local/tmp  下面
+adb push D:\whitelist.txt data/local/tmp 
+
+adb shell monkey --pkg-whitelist-file /data/local/tmp/whitelist.txt 100
+
+--pkg-blacklist-file  黑名单
+adb shell monkey --pkg-blacklist-file /data/local/tmp/blacklist.txt 100
+
+
+6 --ignore-timeouts
+超时错误  adb shell monkey -p [] --ignore-timeouts
+
+--ignore-crashes
+发生奔溃或异常时monkey会停止运行， adb shell monkey -p [] --ignore-crashes
+
+--ignore-security-exception
+发生许可错误导致的异常时
+
+7 百分比事件
+--pct-touch  调整点击事件的百分比  down-up 编号为0
+--pct-motion  调整移动事件的百分比   直线滑动  编号为1
+--pct-pinchzoom 调整两指缩放压缩手势的百分比  编号为2
+--pct-trackball 调整轨迹球事件百分比 编号为3
+--pct-rotation 调整旋转事件的百分比 编号为4
+--pct-nav 调整导航事件的百分比 编号为5
+--pct-majornav 调整主要导航事件的百分比   编号为6
+--pct-syskeys 调整系统按键事件的百分比 HOME back start call 音量 编号为7
+--pct-appswitch 调整app切换事件的百分比  编号为8
+--pct-flip 调整键盘唤出隐藏的百分比  编号为9
+--pct-anyevent 跳转除上面事件外  其他事件的百分比  编号为10
+
+8 停掉monkey
+adb shell 
+ps
+kill (monkey的进程)
